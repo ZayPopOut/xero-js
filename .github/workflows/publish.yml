@@ -1,18 +1,14 @@
-            - name: Publish Node Package
-  # You may pin to the exact commit or the version.
-  # uses: colinparsonscom/publish-node-package@53a5d3ac070578ee6e11aaba8a7e59c5a87b0c41
-  uses: colinparsonscom/publish-node-package@v0.1.0
-  with:
-    # NPM token
-    npm-token: # optional
-    # GitHub token, which will just be the default {{ secrets.GITHUB_TOKEN }} for this workflow. Before writing the steps for this job, remember to include
-
 permissions:
-	contents: read
-	packages:write
+  id-token: write
+  contents: read
 
-for this job.
-    github-token: # optional
-    # Scope for GitHub Packages. This is usually the user or organization that owns the workflow file, prefixed with @. Example: @octocat for the octocat/my-node-package repository.
-    scope: # optional
-          
+steps:
+  - uses: actions/checkout@v4
+
+  - uses: actions/setup-node@v4
+    with:
+      node-version: 20
+      registry-url: 'https://registry.npmjs.org/'
+
+  - name: Publish to npm
+    run: npm publish --provenance
