@@ -1,14 +1,28 @@
-permissions:
-  id-token: write
-  contents: read
+name: Publish Package
 
-steps:
-  - uses: actions/checkout@v4
+on:
+  push:
+    tags:
+      - 'v*'
 
-  - uses: actions/setup-node@v4
-    with:
-      node-version: 20
-      registry-url: 'https://registry.npmjs.org/'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
 
-  - name: Publish to npm
-    run: npm publish --provenance
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Install
+        run: npm install
+
+      - name: Publish to npm
+        run: npm publish --provenance
