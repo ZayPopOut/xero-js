@@ -4,6 +4,7 @@ A compact, directive-driven language built for custom tooling, modular workflows
 
 ---
 
+``` npm i xero-js```
 ## **What Xero Is**
 
 Xero uses `.xr`, `.xro`, and `.x` files.
