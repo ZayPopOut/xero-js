@@ -1,62 +1,160 @@
-# **Xero**
+# 🌟 Xero 
 
-A compact, directive-driven language built for custom tooling, modular workflows, and Discord-focused development. Xero skips the typical programming-language baggage and leans into a clean instruction format that’s fast to parse and simple to extend.
+Welcome to XeroLang.
+This guide shows exactly how to write code that the current compiler can understand and successfully turn into Discord.js.
 
----
-
-``` npm i xero-js```
-## **What Xero Is**
-
-Xero uses `.xr`, `.xro`, and `.x` files.
-Every file follows a straight, instruction-per-line structure. No semicolons, no curly braces, no borrowed syntax from anywhere else. The interpreter handles all translation into Node.js at runtime.
-
-The language is intentionally minimal. You write the instruction, Xero does the heavy lifting.
+No extra features. No theory.
+Just what works **right now**.
 
 ---
 
-## **Why It Exists**
+# 🚀 Step 1: Install XeroLang
 
-* A small instruction set that stays readable
-* Easy extension through modules
-* A full Discord environment written for Xero
-* Zero dependence on common languages
-* Works seamlessly with a Node.js interpreter
+Inside your XeroLang project folder:
 
-Xero’s goal is to give devs a format that’s predictable and flexible without turning into another kitchen-sink language.
+```
+npm install
+npm link
+```
 
----
-
-## **How Xero Files Work**
-
-Each line is a directive.
-Each directive maps to a function or action in the interpreter.
-Modules live under the `::X::` namespace and behave like importable objects.
-
-It’s simple on purpose.
+This makes the `xero` command usable globally.
 
 ---
 
-## **Editor Support**
+# 🔧 Step 2: Create Your First Xero File
 
-The Visual Studio Code extension adds:
+Create:
 
-* Syntax highlighting
-* Directive formatting
-* Module recognition
-* Autocomplete for core instructions
+```
+bot.xero
+```
 
-Nothing fancy, just the essentials you actually need.
+Then add the code your compiler can parse:
+
+```xero
+bot "XeroBot" uses "YOUR_TOKEN"
+intents: Guilds, GuildMessages, MessageContent
+
+on ready:
+    log "Bot is online."
+
+command "ping":
+    reply "pong!"
+
+on message contains "help":
+    send "Try saying ping!" to channel "general"
+```
+
+**Important:**
+The compiler only understands single-line commands and indentation exactly like this.
 
 ---
 
-## **Project Status**
+# 🧰 Step 3: Compile Your Bot
 
-Xero is still evolving. Features shift, modules grow, syntax gets tuned.
-Expect updates as the ecosystem expands and stabilizes.
+Run:
+
+```
+xero bot.xero
+```
+
+If the script is valid, it generates:
+
+```
+output.js
+```
+
+This file contains the actual Discord.js bot code.
 
 ---
 
-## **License**
+# ▶️ Step 4: Install Runtime Dependencies
 
-Use it, extend it, or build entire systems on it.
-Just keep attribution to the original project.
+```
+npm install discord.js dotenv
+```
+
+Run your bot:
+
+```
+node output.js
+```
+
+---
+
+# 📘 XeroLang Syntax (What the Compiler Actually Supports)
+
+### ✔ Bot Declaration
+
+```xero
+bot "BotName" uses "TOKEN"
+```
+
+### ✔ Intents
+
+```
+intents: Guilds, GuildMessages, MessageContent
+```
+
+### ✔ Ready Event
+
+```xero
+on ready:
+    log "message"
+```
+
+### ✔ Commands
+
+```xero
+command "ping":
+    reply "pong!"
+```
+
+The compiler converts this into a message listener checking for exact match.
+
+### ✔ Message Contains Trigger
+
+```xero
+on message contains "word":
+    send "text" to channel "general"
+```
+
+### ✔ Send a Message to a Channel
+
+```xero
+send "TEXT" to channel "CHANNEL_NAME"
+```
+
+### ✔ Slash Commands (Declared Only)
+
+```xero
+slash "name" description "text":
+    reply "something"
+```
+
+(Slash commands are collected but not registered automatically.)
+
+---
+
+# ❗ Features That DO NOT Work (Yet)
+
+The current compiler **does NOT** support:
+
+* Variables
+* Math (`+=`, `=`, etc.)
+* Token blocks (`token "..."`)
+* Arrow syntax (`send -> channel`)
+* Events other than:
+
+  * `on ready`
+  * `on message contains`
+* Multiline replies
+* Nested structures
+* Logic (if/else)
+* Role management
+* Loops
+* Imports
+
+
+
+
